@@ -9,7 +9,7 @@ by xDreamer
 
 - 自动提醒
 
-## 未来可能加入的功能（TO DO LIST)##
+## 未来可能加入的功能（TO DO LIST）
 
 **基于课程表的智能作业DeadLine提醒功能**
 
