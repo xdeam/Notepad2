@@ -1,4 +1,4 @@
-# 安卓记事本软件 
+# INT Notes 
 
 by xDreamer
 ## 主要功能
