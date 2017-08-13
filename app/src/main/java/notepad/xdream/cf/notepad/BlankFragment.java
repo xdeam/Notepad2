@@ -1,18 +1,10 @@
 package notepad.xdream.cf.notepad;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.a520wcf.yllistview.YLListView;
 
@@ -38,7 +30,7 @@ public class BlankFragment   extends BackHandledFragment {
         final List<Notes> notesList = DataSupport.findAll(Notes.class);
 
        // String a[]={"a","b","c"};
-     // DataSupport.deleteAll(Notes.class);
+      //DataSupport.deleteAll(Notes.class);
 
         listView = (YLListView)root.findViewById(R.id.listView);
         // 不添加也有默认的头和底

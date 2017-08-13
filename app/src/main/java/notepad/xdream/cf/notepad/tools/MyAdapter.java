@@ -1,20 +1,15 @@
 package notepad.xdream.cf.notepad.tools;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import notepad.xdream.cf.notepad.AnotherFRG;
 import notepad.xdream.cf.notepad.R;
 import notepad.xdream.cf.notepad.bean.Notes;
 
@@ -61,9 +56,11 @@ public class MyAdapter extends BaseAdapter {
        NotesImage.setImageResource(list.get(position)
                 .getNotesImageRscId());//对功能按钮的图标进行赋值
         NotesText.setText(list.get(position).getNotesTextRscId());//对功能按钮的名字进行赋值  */
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         notesText=(TextView)convertView.findViewById(R.id.itemText);
         dtime=(TextView)convertView.findViewById(R.id.rtime);
-        dtime.setText(list.get(position).getDate()==null?"没有便签":list.get(position).getDate().toString());
+        dtime.setText(list.get(position).getDate()==null?"没有便签":format1.format(list.get(position).getDate()));
         notesText.setText(list.get(position).getContent());
      /*   convertView.setOnClickListener(new View.OnClickListener() {
             @Override
