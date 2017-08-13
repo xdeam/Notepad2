@@ -2,7 +2,6 @@ package notepad.xdream.cf.notepad;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,11 @@ public class AnotherFRG extends BackHandledFragment{
             //notes.setContent(content);
             //notes.setDate(new Date());
         }
+
+
+
+
+
         root.findViewById(R.id.changeA).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
