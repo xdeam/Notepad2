@@ -21,22 +21,24 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import cn.refactor.library.SmoothCheckBox;
 import notepad.xdream.cf.notepad.bean.Notes;
 import notepad.xdream.cf.notepad.tools.BackHandledFragment;
 import notepad.xdream.cf.notepad.tools.CollectorListAdapter;
 
 
 public class BlankFragment   extends BackHandledFragment {
-
+    private View submenu;
     private int lastPress = 0;
     private boolean delState = false;
     private SwipeMenuListView listView;
-
+   CollectorListAdapter myAdapter;
     //初始化ListView数据，在OnCreate方法中调用
-    private void initData(Context context)
+    private void initData(final Context context)
     {
         final List<Notes> notesList = DataSupport.findAll(Notes.class);
-       final CollectorListAdapter adapter = new CollectorListAdapter(context,notesList);
+        myAdapter=new CollectorListAdapter(context,notesList);
+       final CollectorListAdapter adapter = myAdapter;
        Log.d("nuul", "initData: "+adapter==null?"null":"!！！！");
         listView.setAdapter(adapter);
         listView.setEmptyView(getActivity().findViewById(R.id.collector_listview_empty));
@@ -129,6 +131,29 @@ public class BlankFragment   extends BackHandledFragment {
 
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    adapter.visable=true;
+                    adapter.notifyDataSetChanged();
+                    submenu.setVisibility(View.VISIBLE);
+                   // SmoothCheckBox checkBox=(SmoothCheckBox) parent.findViewById(R.id.scb);
+                   // checkBox.setVisibility(View.VISIBLE);
+
+                return true;
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SmoothCheckBox sc=(SmoothCheckBox) view.findViewById(R.id.scb);
+                    if (sc.isChecked()) {
+
+                    }else {
+
+                    }
+            }
+        });
     }
 
     private int dp2px(int dp) {
@@ -166,6 +191,7 @@ public class BlankFragment   extends BackHandledFragment {
                              Bundle savedInstanceState) {
          final View root=inflater.inflate(R.layout.add,container,false);
         listView= (SwipeMenuListView) root.findViewById(R.id.collector_listview);
+        submenu=root.findViewById(R.id.submenu);
         initData(root.getContext());
 
 
@@ -181,6 +207,13 @@ public class BlankFragment   extends BackHandledFragment {
 
     @Override
     public boolean onBackPressed() {
+        if (submenu.getVisibility()==View.VISIBLE){
+            submenu.setVisibility(View.INVISIBLE);
+            myAdapter.visable=false;
+            myAdapter.notifyDataSetChanged();
+            return true;
+        }
+
         return false;
     }
 }

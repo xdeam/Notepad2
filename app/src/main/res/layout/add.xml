@@ -46,6 +46,30 @@
             android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            app:srcCompat="@mipmap/add" />
+            app:srcCompat="@mipmap/add"
+         />
+    <LinearLayout
+        android:id="@+id/submenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="置顶"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

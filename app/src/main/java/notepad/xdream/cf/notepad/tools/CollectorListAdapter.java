@@ -27,12 +27,14 @@ public class CollectorListAdapter extends BaseAdapter {
 
     private List<Notes> listItems;//数据集合
     private LayoutInflater layoutinflater;//视图容器，用来导入布局
+    public boolean visable=false;
 
     static class ViewHolder
     {
         private TextView tv_writeTime;
         private TextView tv_content;
         private ImageView image;
+        //private SmoothCheckBox checkBox;
     }
 
     /*
@@ -64,6 +66,7 @@ public class CollectorListAdapter extends BaseAdapter {
         Notes notes = listItems.get(position);
         ViewHolder holder;
         View view;
+
         if(convertView == null)
         {
             holder= new ViewHolder();
@@ -74,13 +77,19 @@ public class CollectorListAdapter extends BaseAdapter {
             holder.tv_writeTime = (TextView) view.findViewById(R.id.rtime);
             holder.tv_content = (TextView) view.findViewById(R.id.itemText);
             holder.image = (ImageView) view.findViewById(R.id.itemPic);
-
+            //holder.checkBox=(SmoothCheckBox)view.findViewById(R.id.scb);
             view.setTag(holder);
         }
         else
         {
             view = convertView;
+
             holder = (ViewHolder) view.getTag();
+        }
+        if (visable)
+            view.findViewById(R.id.scb).setVisibility(View.VISIBLE);
+        else {
+            view.findViewById(R.id.scb).setVisibility(View.GONE);
         }
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //设置图片和文字
