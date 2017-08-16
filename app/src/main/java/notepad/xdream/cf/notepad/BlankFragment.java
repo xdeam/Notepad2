@@ -6,11 +6,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -32,6 +34,7 @@ public class BlankFragment   extends BackHandledFragment {
     private int lastPress = 0;
     private boolean delState = false;
     private SwipeMenuListView listView;
+    private Button selDelButton;
    CollectorListAdapter myAdapter;
     //初始化ListView数据，在OnCreate方法中调用
     private void initData(final Context context)
@@ -139,21 +142,36 @@ public class BlankFragment   extends BackHandledFragment {
                     submenu.setVisibility(View.VISIBLE);
                    // SmoothCheckBox checkBox=(SmoothCheckBox) parent.findViewById(R.id.scb);
                    // checkBox.setVisibility(View.VISIBLE);
-
-                return true;
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SmoothCheckBox sc=(SmoothCheckBox) view.findViewById(R.id.scb);
-                    if (sc.isChecked()) {
-
-                    }else {
-
-                    }
+                sc.setChecked(!sc.isChecked(),true);
             }
         });
+                return true;
+            }
+        });
+
+        selDelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SparseBooleanArray checkedKV=adapter.checkedKV;
+                for (int i=0;i<checkedKV.size();i++){
+                    int key=checkedKV.keyAt(i);
+                    boolean value=checkedKV.get(key);
+                    if (value){
+                      Notes notes=notesList.get(key);
+                        delete(notes);
+                        notesList.remove(key);
+                    }
+
+                Log.d("checkbox",key+" : "+value);}
+                onBackPressed();
+            }
+
+        });
+
     }
 
     private int dp2px(int dp) {
@@ -192,6 +210,7 @@ public class BlankFragment   extends BackHandledFragment {
          final View root=inflater.inflate(R.layout.add,container,false);
         listView= (SwipeMenuListView) root.findViewById(R.id.collector_listview);
         submenu=root.findViewById(R.id.submenu);
+        selDelButton=(Button) root.findViewById(R.id.selectedDelButton);
         initData(root.getContext());
 
 
@@ -210,6 +229,15 @@ public class BlankFragment   extends BackHandledFragment {
         if (submenu.getVisibility()==View.VISIBLE){
             submenu.setVisibility(View.INVISIBLE);
             myAdapter.visable=false;
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    getFragmentManager().beginTransaction().replace(R.id.container,AnotherFRG.newInstance((Notes)parent.getItemAtPosition(position))).commit();
+
+                }
+            });
             myAdapter.notifyDataSetChanged();
             return true;
         }

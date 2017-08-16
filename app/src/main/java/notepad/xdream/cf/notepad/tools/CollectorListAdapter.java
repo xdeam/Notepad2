@@ -1,6 +1,8 @@
 package notepad.xdream.cf.notepad.tools;
 
 import android.content.Context;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import cn.refactor.library.SmoothCheckBox;
 import notepad.xdream.cf.notepad.R;
 import notepad.xdream.cf.notepad.bean.Notes;
 
@@ -28,13 +31,13 @@ public class CollectorListAdapter extends BaseAdapter {
     private List<Notes> listItems;//数据集合
     private LayoutInflater layoutinflater;//视图容器，用来导入布局
     public boolean visable=false;
-
+    public SparseBooleanArray checkedKV=new SparseBooleanArray();
     static class ViewHolder
     {
         private TextView tv_writeTime;
         private TextView tv_content;
         private ImageView image;
-        //private SmoothCheckBox checkBox;
+        private SmoothCheckBox checkBox;
     }
 
     /*
@@ -62,8 +65,8 @@ public class CollectorListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Notes notes = listItems.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Notes notes = listItems.get(position);
         ViewHolder holder;
         View view;
 
@@ -77,7 +80,7 @@ public class CollectorListAdapter extends BaseAdapter {
             holder.tv_writeTime = (TextView) view.findViewById(R.id.rtime);
             holder.tv_content = (TextView) view.findViewById(R.id.itemText);
             holder.image = (ImageView) view.findViewById(R.id.itemPic);
-            //holder.checkBox=(SmoothCheckBox)view.findViewById(R.id.scb);
+            holder.checkBox=(SmoothCheckBox)view.findViewById(R.id.scb);
             view.setTag(holder);
         }
         else
@@ -95,7 +98,13 @@ public class CollectorListAdapter extends BaseAdapter {
         //设置图片和文字
         holder.tv_writeTime.setText(format1.format(notes.getDate()));
         holder.tv_content.setText(notes.getContent());
-
+        holder.checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+                checkedKV.put(position,isChecked);
+                Log.d("checked",isChecked+"");
+            }
+        });
         return view;
     }
 
