@@ -21,6 +21,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.refactor.library.SmoothCheckBox;
@@ -156,17 +157,30 @@ public class BlankFragment   extends BackHandledFragment {
         selDelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SparseBooleanArray checkedKV=adapter.checkedKV;
+              SparseBooleanArray checkedKV=adapter.checkedKV;
+                List <Notes> delList=new ArrayList<>();
                 for (int i=0;i<checkedKV.size();i++){
                     int key=checkedKV.keyAt(i);
                     boolean value=checkedKV.get(key);
-                    if (value){
-                      Notes notes=notesList.get(key);
-                        delete(notes);
-                        notesList.remove(key);
+                    if (value) {
+                        delList.add(notesList.get(key));
+                        Log.d("checkbox", key + " : " + value);
+                        delete(notesList.get(key));
                     }
 
-                Log.d("checkbox",key+" : "+value);}
+                }
+               /* for (int i=0;i<delList.size();i++) {
+                    Log.d("dellist", i + "");
+                    notesList.remove(delList.get(i));
+                }*///
+
+                notesList.removeAll(delList);
+                if (notesList.size()==delList.size())
+                    notesList.clear();
+                delList.clear();
+                checkedKV.clear();
+                // notesList.clear();
+                adapter.notifyDataSetChanged();
                 onBackPressed();
             }
 

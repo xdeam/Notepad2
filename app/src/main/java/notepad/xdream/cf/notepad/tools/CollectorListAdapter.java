@@ -98,11 +98,14 @@ public class CollectorListAdapter extends BaseAdapter {
         //设置图片和文字
         holder.tv_writeTime.setText(format1.format(notes.getDate()));
         holder.tv_content.setText(notes.getContent());
+        if (!checkedKV.get(position))
+            holder.checkBox.setChecked(false);
         holder.checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
                 checkedKV.put(position,isChecked);
-                Log.d("checked",isChecked+"");
+                Log.d("checked",position+":"+isChecked+"");
+
             }
         });
         return view;
